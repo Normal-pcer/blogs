@@ -25,27 +25,27 @@ menu:
     icon:
       name: home
       theme: filled
-    src: /
+    src: /blogs/
   about:
     icon:
       name: idcard
       theme: filled
-    src: /about # 当你的博客root为 '/' 时
+    src: /blogs/about # 当你的博客root为 '/' 时
   archives:
     icon:
       name: folder
       theme: filled
-    src: /archives
+    src: /blogs/archives
   categories:
     icon:
       name: book
       theme: filled
-    src: /like/categories # 当你的博客root不为 '/'，而是其它时，例如 '/like/'
+    src: /blogs/categories # 当你的博客root不为 '/'，而是其它时，例如 '/like/'
   tags:
     icon:
       name: tags
       theme: filled
-    src: /like/tags
+    src: /blogs/tags
 
 
 # side info card
