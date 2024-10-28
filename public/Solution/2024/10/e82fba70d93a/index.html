@@ -1,0 +1,626 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>P5380 鸭棋 题解 | normal-pcer&#39;s blog</title>
+    <meta name="author" content="normal-pcer" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/blogs/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/blogs/js/lib/highlight.js"></script>
+
+
+
+<script src="/blogs/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/blogs/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/blogs/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/blogs/">
+            <span>NORMAL-PCER&#39;S BLOG</span>
+        </a>
+        
+        <a href="/blogs/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blogs/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blogs/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blogs/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blogs/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;NORMAL-PCER&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blogs/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blogs/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blogs/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blogs/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blogs/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>P5380 鸭棋 题解</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/10/28
+        </span>
+        
+        <span class="category">
+            <a href="/blogs/categories/Solution/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Solution
+            </a>
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="题意简述">题意简述</h2>
+<p>一款在中国象棋基础上制作的游戏“鸭棋”，把棋子“炮”替换为了“鸭”。其中，“鸭”的移动规则是沿着 <span class="math inline">\(2\times 3\)</span> 网格的对角线上移动，但是如果在如图的两个红点处有其他棋子，则会“别鸭腿”，移动失败。 <img src="https://cdn.luogu.com.cn/upload/image_hosting/bvt7malu.png" alt="鸭的移动规则" /></p>
+<p>接下来，给出 <span class="math inline">\(Q\)</span> 次移动的起点 <span class="math inline">\(\left(x_1, y_1\right)\)</span> 和终点 <span class="math inline">\(\left(x_2, y_2\right)\)</span>，对于每一个步骤，要求求出： - 这一步移动的棋子，输出所处阵营和棋子类型，例如 <code>red horse</code>。 - 这一步吃掉的棋子。 - 这一步后是否构成“将军”。 - 这一步后游戏是否结束。</p>
+<p>如果不合法，输出 <code>Invalid command</code>。</p>
+<p>其中，“不合法”的情况包括： - 没有选中或者选中敌方棋子。 - 试图攻击己方棋子。 - 试图移动到棋盘外。 - 游戏已经结束。</p>
+<p>一方的王（将帅）被吃掉则游戏结束，一步之内可以使游戏结束被称为“将军”。特别地，王被吃掉的那一轮不能算作将军。</p>
+<h2 id="题目分析">题目分析</h2>
+<p>本题数据范围很小，按照题意模拟即可。主要包括以下步骤： - 选中棋子。 - 判断合法性。 - 移动棋子。 - 判断是否将军和游戏是否结束。</p>
+<p>这篇题解将会在判断合法性时采用较为新颖的方法，可以优化编码体验。同时，也会带有一定的面向对象编程的思想。对于模拟题，我的代码通常以追求可读性为主。</p>
+<p>接下来按照我会大致按照自己的编码顺序，从大体框架开始介绍。</p>
+<h3 id="大体框架">大体框架</h3>
+<p>对于棋盘的存储，我选择了直接存储所有棋子及其位置信息。</p>
+<p>考虑把棋子抽象成一个类。那么，它需要包括三个属性：类型，位置和队伍。进一步，位置包含 <span class="math inline">\(x\)</span> 坐标和 <span class="math inline">\(y\)</span> 坐标两个属性。我们用一个二维向量表示位置。之所以叫做向量，是因为我们接下来会用到一部分的向量运算。</p>
+<p>接下来就可以一层一层地定义了。向量类：</p>
+<pre class="cpp"><code>struct Vec2d &#123;
+    int x, y;
+    Vec2d operator+(const Vec2d &amp;other) const &#123; return &#123;x+other.x, y+other.y&#125;; &#125; // 加
+    Vec2d operator-(const Vec2d &amp;other) const &#123; return &#123;x-other.x, y-other.y&#125;; &#125; // 减
+    Vec2d operator*(const int other) const &#123; return &#123;x*other, y*other&#125;; &#125; // 数乘
+    Vec2d operator/(const int other) const &#123; return &#123;x/other, y/other&#125;; &#125; // 乘以 1/other
+    int operator*(const Vec2d &amp;other) const &#123; return x*other.x + y*other.y; &#125; // 数量积
+    int cross(const Vec2d &amp;other) const &#123; return x*other.y - y*other.x; &#125; // 叉乘的模长
+    bool operator==(const Vec2d &amp;other) const &#123; return x==other.x and y==other.y; &#125; // 相等
+    bool operator!=(const Vec2d &amp;other) const &#123; return x!=other.x or y!=other.y; &#125; // 不等
+
+    int sqrDistance(const Vec2d &amp;other) const &#123; // 两点间欧几里得距离的平方
+        return (x-other.x)*(x-other.x)+(y-other.y)*(y-other.y); 
+    &#125;
+    int manhattan(const Vec2d &amp;other) const &#123; return abs(x-other.x)+abs(y-other.y); &#125; // 曼哈顿距离
+    int chebyshev(const Vec2d &amp;other) const &#123; return std::max(abs(x-other.x), abs(y-other.y)); &#125; // 切比雪夫距离
+
+    int sqrAbs() const &#123; return x*x+y*y; &#125;  // 模长的平方
+&#125;;</code></pre>
+<p>这里，我们实现了两点间的三种距离也是为下文做准备。叉乘的结果是一个三维向量，这里为了方便直接返回模长。对于欧几里得距离（和模长），我们省略了开平方操作（这会引入浮点数的误差），直接采用开方前的结果。</p>
+<p>阵营枚举：</p>
+<pre class="cpp"><code>enum Team &#123;
+    Red,
+    Blue,
+&#125;;</code></pre>
+<p>按照定义顺序，<code>Team::Red</code> 和 <code>Team::Blue</code> 分别为 0 和 1。所以我们可以直接使用“异或”操作进行阵营的轮换。</p>
+<p>接下来我们定义棋子类和棋子列表。</p>
+<pre class="cpp"><code>struct Piece;  // 预先声明，解决循环引用问题
+vector&lt;Piece&gt; pieces;
+
+struct Piece &#123;
+    string  name;   // 棋子类型，如 horse, elephant
+    Vec2d   pos;    // 棋子位置
+    Team    team;   // 棋子阵营
+
+    bool reachable(Vec2d dest) &#123;  // 能否到达目标地点
+        // To be done.
+    &#125;
+&#125;;</code></pre>
+<p>这里有一个小问题，后面我们在实现 <code>reachable</code> 方法的时候会用到 <code>pieces</code> 数组，所以采用了预先声明的办法解决循环引用问题。当然，也可以在类外定义 <code>reachable</code> 方法。</p>
+<p>绝大多数定义在这一步就完成了。</p>
+<h3 id="判断合法性">判断合法性</h3>
+<p>我们先不考虑其他因素，只处理两点的位置和“别脚”问题。</p>
+<p>对于相对位置，我们使用上文的三种距离筛选。我们先简要介绍一下这三种距离。</p>
+<p>对于两个点 <span class="math inline">\(\left(x_1, y_1\right)\)</span> 和 <span class="math inline">\(\left(x_2, y_2\right)\)</span>，我们令 <span class="math inline">\(\Delta x=\lvert x_1-x_2 \rvert, \Delta y=\lvert y_1-y_2 \rvert\)</span>。则两点的欧几里得距离是 <span class="math inline">\(\Delta x^2+\Delta y^2\)</span>，曼哈顿距离是 <span class="math inline">\(\Delta x+\Delta y\)</span>，切比雪夫距离是 <span class="math inline">\(\max{\left\{\Delta x, \Delta y\right\}}\)</span>。</p>
+<p>感性地理解，曼哈顿距离下的“圆”是一个斜着的正方形，切比雪夫距离下的“圆”是一个正置的正方形。</p>
+<p>接下来，我们用 <span class="math inline">\(d\)</span> 表示欧几里得距离，<span class="math inline">\(m\)</span> 表示曼哈顿距离，<span class="math inline">\(c\)</span> 表示切比雪夫距离。各种棋子便有如下的筛法： - 王：<span class="math inline">\(d=1\)</span> - 士：<span class="math inline">\(m=2, c=1\)</span>（或者 <span class="math inline">\(d=\sqrt{2}\)</span>） - 象：<span class="math inline">\(m=4, c=2\)</span>（或者 <span class="math inline">\(d=2\sqrt{2}\)</span>） - 马：<span class="math inline">\(d=\sqrt{5}\)</span> - 车：<span class="math inline">\(m=c\neq 0\)</span> - 鸭：<span class="math inline">\(d=\sqrt{13}\)</span> - 兵：<span class="math inline">\(c=1\)</span></p>
+<p>接下来处理“别脚”的情况。这里我们就用到向量筛选。我们设 <span class="math inline">\(Q\)</span> 是当前棋盘上的一个棋子，出发点是 <span class="math inline">\(O\)</span>，终点是 <span class="math inline">\(P\)</span>。为了简便，令 <span class="math inline">\(\vec{a}=\overrightarrow{OP}, \vec{b}=\overrightarrow{OQ}\)</span>。</p>
+<p>对于象，不难发现 <span class="math inline">\(2\vec{b}=\vec{a}\)</span> 会构成压象眼。</p>
+<p>接下来考虑别马脚。注意到，别马脚的子距离起点长度一定为 <span class="math inline">\(1\)</span>，即 <span class="math inline">\(\lvert \vec{b} \rvert=1\)</span>。此外，我们注意到，这两条向量的夹角永远是不变的，同时模长不变，自然想到利用数量积筛选。做 <span class="math inline">\(\vec{b}\)</span> 在 <span class="math inline">\(\vec{a}\)</span> 上的投影，显然有 <span class="math inline">\(\vec{a}\cdot\vec{b}=2\)</span>。我们也可以用 GeoGebra 的画图功能来验证这个筛选。 <img src="https://cdn.luogu.com.cn/upload/image_hosting/76liyz5f.png" /></p>
+<p>红色直线上的点符合数量积要求，蓝色圆上的点符合模长要求，同时由于两个轴上的坐标都是整数，所以点 <span class="math inline">\(Q\)</span> 是唯一的——这个点也确实会别到马脚。</p>
+<p>对于鸭子，有了处理别马脚的经验，也能很快的想出结论。第一种可能，<span class="math inline">\(\lvert \vec{b} \rvert=1\)</span> 且 <span class="math inline">\(\vec{a}\cdot\vec{b}=3\)</span>；第二种可能，<span class="math inline">\(\lvert \vec{b} \rvert=\sqrt{5}\)</span> 且 <span class="math inline">\(\vec{a}\cdot\vec{b}=8\)</span>。</p>
+<p>对于车，要求中间没有挡道的棋子。不难想到，如果一个棋子要“挡道”，需要符合以下条件： - <span class="math inline">\(\vec{a}\)</span> 和 <span class="math inline">\(\vec{b}\)</span> 共线。 - <span class="math inline">\(\vec{a}\)</span> 和 <span class="math inline">\(\vec{b}\)</span> 同向。 - <span class="math inline">\(0&lt;\lvert \vec{b} \rvert&lt;\lvert \vec{a} \rvert\)</span>。</p>
+<p>使用向量运算描述一下，即为以下条件： <span class="math display">\[
+\begin{cases}
+    \vec{a}\times\vec{b}=\vec0 \\
+    \vec{a}\cdot\vec{b}&gt;0 \\
+    \lvert \vec{b} \rvert&lt;\lvert \vec{a} \rvert
+\end{cases}
+\]</span></p>
+<p>最后，再检测一下落点是否在棋盘上，以及是否在攻击己方棋子就可以了。</p>
+<p>代码如下：</p>
+<pre class="cpp"><code>struct Piece &#123;
+    // ...
+    // 检查是否可以到达目标位置，但是只对位置进行判断
+    bool reachable_pos(Vec2d dest) &#123;
+        if (name == &quot;captain&quot;) &#123;
+            return pos.sqrDistance(dest) == 1;
+        &#125; else if (name == &quot;guard&quot;) &#123;
+            return pos.manhattan(dest) == 2 and pos.chebyshev(dest) == 1;
+        &#125; else if (name == &quot;elephant&quot;) &#123;
+            return pos.manhattan(dest) == 4 and pos.chebyshev(dest) == 2 and 
+                not pieces.some(lambda(p, (p.pos-pos)*2==(dest-pos))); 
+        &#125; else if (name == &quot;horse&quot;) &#123;
+            return pos.sqrDistance(dest) == 5 and 
+                not pieces.some(lambda(p, 
+                    p.pos.sqrDistance(pos) == 1 and (p.pos-pos)*(dest-pos)==2));
+        &#125; else if (name == &quot;car&quot;) &#123;
+            auto a = dest-pos;
+            return pos.chebyshev(dest) == pos.manhattan(dest) and not pieces.some([&amp;](auto p) &#123;
+                auto b = p.pos-pos;
+                return b.cross(a)==0 and b.sqrAbs()&lt;a.sqrAbs() and b*a&gt;0;
+            &#125;);
+        &#125; else if (name == &quot;soldier&quot;) &#123;
+            return pos.chebyshev(dest) == 1;
+        &#125; else &#123;  // duck
+            auto a = dest-pos;
+            return pos.sqrDistance(dest) == 13 and not pieces.some([&amp;](auto p) &#123;
+                auto b = p.pos-pos;
+                return (a*b==8 and b.sqrAbs()==5) or (a*b==3 and b.sqrAbs()==1);
+            &#125;);
+        &#125;
+    &#125;
+
+    bool reachable(Vec2d dest) &#123;  // 能否到达目标地点
+        return 0&lt;=dest.x and dest.x&lt;_X and
+            0&lt;=dest.y and dest.y&lt;_Y and
+            reachable_pos(dest) and 
+            not pieces.some(lambda(p, p.pos==dest and p.team==team));
+    &#125;
+&#125;</code></pre>
+<p>这里为了方便，我继承了 <code>std::vector</code>，即代码中的 <code>vector</code>，并添加了 <code>some(func)</code> 方法，用于判断是否存在任意一个元素 <code>i</code>，使得 <code>func(i)</code> 返回真。</p>
+<pre class="cpp"><code>template &lt;typename T&gt; struct vector: public std::vector&lt;T&gt; &#123;
+    template &lt;class Func&gt;
+    bool some(const Func&amp;&amp; f) &#123;
+        for (auto&amp; i: *this) &#123;
+            if (f(i))  return true;
+        &#125;
+        return false;
+    &#125;
+&#125;;</code></pre>
+<p>而 <code>lambda</code> 是一个宏，定义如下：</p>
+<pre class="cpp"><code>#define lambda(arg, expr) [&amp;](auto arg)&#123;return expr;&#125;</code></pre>
+<h3 id="其他流程">其他流程</h3>
+<p>这里就不多加阐述了，可以见代码注释</p>
+<pre class="cpp"><code>void solve() &#123;
+    init();
+    // 双方的王
+    Piece&amp; kingRed = pieces[0];
+    Piece&amp; kingBlue = pieces[1];
+
+    bool round = 0;
+    bool gameOver = false;
+    from(_, 1, Q) &#123;
+        if (gameOver) &#123;  // 游戏结束一定不合法
+            cout &lt;&lt; &quot;Invalid command\n&quot;;
+            continue;
+        &#125;
+        int x1, y1, x2, y2;
+        cin &gt;&gt; x1 &gt;&gt; y1 &gt;&gt; x2 &gt;&gt; y2;
+        auto src = Vec2d&#123;x1, y1&#125;;  // 起点
+        auto dest = Vec2d&#123;x2, y2&#125;;  // 终点
+
+        auto selected = std::find_if(pieces.begin(), pieces.end(), 
+            lambda(p, p.pos==src and p.team==round));  // 筛选，要求位置一致并且阵营正确
+        if (selected == pieces.end()) &#123;  // 没找到
+            cout &lt;&lt; &quot;Invalid command\n&quot;;
+            continue;
+        &#125;
+
+        bool available = selected-&gt;reachable(dest);  // 判断终点位置是否可达
+        if (not available) &#123;
+            cout &lt;&lt; &quot;Invalid command\n&quot;; continue;
+        &#125;
+        // 主语
+        cout &lt;&lt; (selected-&gt;team==Team::Red? &quot;red &quot;: &quot;blue &quot;) &lt;&lt; selected-&gt;name &lt;&lt; &#39;;&#39;;
+
+        // 宾语
+        bool isKingKilled = false;  // 王被击杀，判断游戏结束
+        auto attackedIter = std::find_if(pieces.begin(), pieces.end(), lambda(p, p.pos==dest));
+        selected-&gt;pos = dest;
+        if (attackedIter == pieces.end()) &#123;
+            cout &lt;&lt; &quot;NA;&quot;;  // 移到空格子
+        &#125; else &#123;
+            isKingKilled = (attackedIter-&gt;name==&quot;captain&quot;);  // 游戏结束
+            // 输出宾语
+            cout &lt;&lt; (attackedIter-&gt;team==Team::Red? &quot;red &quot;: &quot;blue &quot;) &lt;&lt; attackedIter-&gt;name &lt;&lt; &#39;;&#39;;
+            pieces.erase(attackedIter);  // 移除被吃的子
+        &#125;
+        bool isKingInDanger = false;  // 被将军
+        isKingInDanger &amp;= !isKingKilled;  // 特判，王已经死了
+        isKingInDanger |= pieces.some(lambda(p, p.reachable(kingRed.pos) and p.team==Team::Blue));
+        isKingInDanger |= pieces.some(lambda(p, p.reachable(kingBlue.pos) and p.team==Team::Red));
+        cout &lt;&lt; (isKingInDanger? &quot;yes;&quot;: &quot;no;&quot;) &lt;&lt; (isKingKilled? &quot;yes&quot;: &quot;no&quot;) &lt;&lt; &#39;\n&#39;;
+        gameOver |= isKingKilled; 
+        round ^= 1;  // 当且仅当操作合法，进行轮换
+    &#125;
+&#125;</code></pre>
+<h3 id="初始化">初始化</h3>
+<p>初始化主要用于处理棋子的初始位置。</p>
+<p>我采用了一些宏定义简化代码。宏定义有时可以减少枯燥乏味的代码，不过也要慎用，避免出现一些很难调的 bug。</p>
+<pre class="cpp"><code>int Q;
+void init() &#123;
+    std::ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    // 添加一个子
+    #define add(name,px,py,team) pieces.push_back(Piece&#123;name, &#123;px, py&#125;, Team::team&#125;);
+    // 添加四个中心对称的子
+    #define four(name,dx,dy) add(name,4-dx,4+dy,Red) add(name,4-dx,4-dy,Red) \
+        add(name,5+dx,4-dy,Blue) add(name,5+dx,4+dy,Blue)
+    // 添加底线上的一个子
+    #define bottom(name,dy) four(name,4,dy);
+    add(&quot;captain&quot;,0,4,Red) add(&quot;captain&quot;,9,4,Blue)
+    bottom(&quot;car&quot;,4)bottom(&quot;horse&quot;,3)bottom(&quot;elephant&quot;,2)bottom(&quot;guard&quot;,1)
+    four(&quot;duck&quot;,2,4)
+    four(&quot;soldier&quot;,1,4)four(&quot;soldier&quot;,1,2)add(&quot;soldier&quot;,3,4,Red)add(&quot;soldier&quot;,6,4,Blue)
+    cin &gt;&gt; Q;
+&#125;</code></pre>
+<p>那么这个代码就完成了。</p>
+<h3 id="警示后人">警示后人</h3>
+<p>在写这个代码时，我被一个引用造成的 bug 卡了四个小时，原因是我在引用了 <code>vector</code> 上的一个元素之后，删除了另一个元素，导致内存上这个位置发生了变化，于是这个引用指向了其他元素。引用其实也是指向一个内存上的地址，和指针一样，所以不要掉以轻心，尤其是对可变容器中一个对象的引用，更要万分小心。（例如，<code>vector.push_back</code> 看上去人畜无害，但是如果触发了扩容，这个 <code>vector</code> 上的所有引用都会失效）</p>
+<h2 id="总结">总结</h2>
+<p>本文中，我们采用了一些数学方法转换和简化了检查棋子的过程，感觉思路比较新颖，希望管理能够通过。</p>
+<p>模拟题最重要的是对于题意的理解和保持思路的清晰。不过，这么长的代码，如果出现 bug，调起来还是很头疼的，所以还是要细心一些，并且记录一些平时遇到的 bug，在以后的代码中也多注意这些问题。</p>
+<p>在文化课中学习向量时，我有时想，“这么抽象的东西到底有什么用”，直到编写这份代码的时候，我鬼使神差地给两个位置做了减法——这就是向量。于是，那些尘封在课本中的知识涌入脑海，前文的那些步骤也很自然了。把这些冗长的规则，都转变成了一个个简短的式子，也许这就是数学的魅力吧。</p>
+<p>不知不觉也写了不少了，感谢您的观看。</p>
+<h2 id="完整代码">完整代码</h2>
+<pre class="cpp"><code>/**
+ * @link https://www.luogu.com.cn/problem/P5380
+ */
+
+#include &lt;bits/stdc++.h&gt;
+#define from(i,b,e) for(int i=(b);i&lt;=(e);i++)
+#define lambda(arg, expr) [&amp;](auto arg)&#123;return expr;&#125;
+
+using std::string, std::cin, std::cout;
+
+template &lt;typename T&gt; struct vector: public std::vector&lt;T&gt; &#123;
+    template &lt;class Func&gt;
+    bool some(const Func&amp;&amp; f) &#123;
+        for (auto&amp; i: *this) &#123;
+            if (f(i))  return true;
+        &#125;
+        return false;
+    &#125;
+&#125;;
+
+const int _X = 10;
+const int _Y = 9;
+
+struct Vec2d &#123;
+    int x, y;
+    Vec2d operator+(const Vec2d &amp;other) const &#123; return &#123;x+other.x, y+other.y&#125;; &#125; // 加
+    Vec2d operator-(const Vec2d &amp;other) const &#123; return &#123;x-other.x, y-other.y&#125;; &#125; // 减
+    Vec2d operator*(const int other) const &#123; return &#123;x*other, y*other&#125;; &#125; // 数乘
+    Vec2d operator/(const int other) const &#123; return &#123;x/other, y/other&#125;; &#125; // 乘以 1/other
+    int operator*(const Vec2d &amp;other) const &#123; return x*other.x + y*other.y; &#125; // 数量积
+    int cross(const Vec2d &amp;other) const &#123; return x*other.y - y*other.x; &#125; // 叉乘的模长
+    bool operator==(const Vec2d &amp;other) const &#123; return x==other.x and y==other.y; &#125; // 相等
+    bool operator!=(const Vec2d &amp;other) const &#123; return x!=other.x or y!=other.y; &#125; // 不等
+
+    int sqrDistance(const Vec2d &amp;other) const &#123; // 两点间欧几里得距离的平方
+        return (x-other.x)*(x-other.x)+(y-other.y)*(y-other.y); 
+    &#125;
+    int manhattan(const Vec2d &amp;other) const &#123; return abs(x-other.x)+abs(y-other.y); &#125; // 曼哈顿距离
+    int chebyshev(const Vec2d &amp;other) const &#123; return std::max(abs(x-other.x), abs(y-other.y)); &#125; // 切比雪夫距离
+
+    int sqrAbs() const &#123; return x*x+y*y; &#125; // 模长的平方
+&#125;;
+
+enum Team &#123;
+    Red,
+    Blue,
+&#125;;
+
+struct Piece;  // 预先声明，解决循环引用问题
+vector&lt;Piece&gt; pieces;
+
+struct Piece &#123;
+    string  name;   // 棋子类型，如 horse, elephant
+    Vec2d   pos;    // 棋子位置
+    Team    team;   // 棋子阵营
+
+    // 检查是否可以到达目标位置，但是只对位置进行判断
+    bool reachable_pos(Vec2d dest) &#123;
+        if (name == &quot;captain&quot;) &#123;
+            return pos.sqrDistance(dest) == 1;
+        &#125; else if (name == &quot;guard&quot;) &#123;
+            return pos.manhattan(dest) == 2 and pos.chebyshev(dest) == 1;
+        &#125; else if (name == &quot;elephant&quot;) &#123;
+            return pos.manhattan(dest) == 4 and pos.chebyshev(dest) == 2 and 
+                not pieces.some(lambda(p, (p.pos-pos)*2==(dest-pos))); 
+        &#125; else if (name == &quot;horse&quot;) &#123;
+            return pos.sqrDistance(dest) == 5 and 
+                not pieces.some(lambda(p, 
+                    p.pos.sqrDistance(pos) == 1 and (p.pos-pos)*(dest-pos)==2));
+        &#125; else if (name == &quot;car&quot;) &#123;
+            auto a = dest-pos;
+            return pos.chebyshev(dest) == pos.manhattan(dest) and not pieces.some([&amp;](auto p) &#123;
+                auto b = p.pos-pos;
+                return b.cross(a)==0 and b.sqrAbs()&lt;a.sqrAbs() and b*a&gt;0;
+            &#125;);
+        &#125; else if (name == &quot;soldier&quot;) &#123;
+            return pos.chebyshev(dest) == 1;
+        &#125; else &#123;  // duck
+            auto a = dest-pos;
+            return pos.sqrDistance(dest) == 13 and not pieces.some([&amp;](auto p) &#123;
+                auto b = p.pos-pos;
+                return (a*b==8 and b.sqrAbs()==5) or (a*b==3 and b.sqrAbs()==1);
+            &#125;);
+        &#125;
+    &#125;
+
+    bool reachable(Vec2d dest) &#123;  // 能否到达目标地点
+        return 0&lt;=dest.x and dest.x&lt;_X and
+        0&lt;=dest.y and dest.y&lt;_Y and
+        reachable_pos(dest) and 
+        not pieces.some(lambda(p, p.pos==dest and p.team==team));
+    &#125;
+&#125;;
+
+namespace Solution &#123;
+    int Q;
+    void init() &#123;
+        std::ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+        // 添加一个子
+        #define add(name,px,py,team) pieces.push_back(Piece&#123;name, &#123;px, py&#125;, Team::team&#125;);
+        // 添加四个中心对称的子
+        #define four(name,dx,dy) add(name,4-dx,4+dy,Red) add(name,4-dx,4-dy,Red) \
+            add(name,5+dx,4-dy,Blue) add(name,5+dx,4+dy,Blue)
+        // 添加底线上的一个子
+        #define bottom(name,dy) four(name,4,dy);
+        add(&quot;captain&quot;,0,4,Red) add(&quot;captain&quot;,9,4,Blue)
+        bottom(&quot;car&quot;,4)bottom(&quot;horse&quot;,3)bottom(&quot;elephant&quot;,2)bottom(&quot;guard&quot;,1)
+        four(&quot;duck&quot;,2,4)
+        four(&quot;soldier&quot;,1,4)four(&quot;soldier&quot;,1,2)add(&quot;soldier&quot;,3,4,Red)add(&quot;soldier&quot;,6,4,Blue)
+        cin &gt;&gt; Q;
+    &#125;
+
+    void solve() &#123;
+        init();
+        // 双方的王
+        Piece&amp; kingRed = pieces[0];
+        Piece&amp; kingBlue = pieces[1];
+
+        bool round = 0;
+        bool gameOver = false;
+        from(_, 1, Q) &#123;
+            if (gameOver) &#123;  // 游戏结束一定不合法
+                cout &lt;&lt; &quot;Invalid command\n&quot;;
+                continue;
+            &#125;
+            int x1, y1, x2, y2;
+            cin &gt;&gt; x1 &gt;&gt; y1 &gt;&gt; x2 &gt;&gt; y2;
+            auto src = Vec2d&#123;x1, y1&#125;;  // 起点
+            auto dest = Vec2d&#123;x2, y2&#125;;  // 终点
+
+            auto selected = std::find_if(pieces.begin(), pieces.end(), 
+                lambda(p, p.pos==src and p.team==round));  // 筛选，要求位置一致并且阵营正确
+            if (selected == pieces.end()) &#123;  // 没找到
+                cout &lt;&lt; &quot;Invalid command\n&quot;;
+                continue;
+            &#125;
+
+            bool available = selected-&gt;reachable(dest);  // 判断终点位置是否可达
+            if (not available) &#123;
+                cout &lt;&lt; &quot;Invalid command\n&quot;; continue;
+            &#125;
+            // 主语
+            cout &lt;&lt; (selected-&gt;team==Team::Red? &quot;red &quot;: &quot;blue &quot;) &lt;&lt; selected-&gt;name &lt;&lt; &#39;;&#39;;
+
+            // 宾语
+            bool isKingKilled = false;  // 王被击杀，判断游戏结束
+            auto attackedIter = std::find_if(pieces.begin(), pieces.end(), lambda(p, p.pos==dest));
+            selected-&gt;pos = dest;
+            if (attackedIter == pieces.end()) &#123;
+                cout &lt;&lt; &quot;NA;&quot;;  // 移到空格子
+            &#125; else &#123;
+                isKingKilled = (attackedIter-&gt;name==&quot;captain&quot;);  // 游戏结束
+                // 输出宾语
+                cout &lt;&lt; (attackedIter-&gt;team==Team::Red? &quot;red &quot;: &quot;blue &quot;) &lt;&lt; attackedIter-&gt;name &lt;&lt; &#39;;&#39;;
+                pieces.erase(attackedIter);  // 移除被吃的子
+            &#125;
+            bool isKingInDanger = false;  // 被将军
+            isKingInDanger &amp;= !isKingKilled;  // 特判，王已经死了
+            isKingInDanger |= pieces.some(lambda(p, p.reachable(kingRed.pos) and p.team==Team::Blue));
+            isKingInDanger |= pieces.some(lambda(p, p.reachable(kingBlue.pos) and p.team==Team::Red));
+            cout &lt;&lt; (isKingInDanger? &quot;yes;&quot;: &quot;no;&quot;) &lt;&lt; (isKingKilled? &quot;yes&quot;: &quot;no&quot;) &lt;&lt; &#39;\n&#39;;
+            gameOver |= isKingKilled; 
+            round ^= 1;  // 当且仅当操作合法，进行轮换
+        &#125;
+    &#125;
+&#125;
+
+
+int main() &#123;
+    Solution::solve();
+    return 0;
+&#125;</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 normal-pcer&#39;s blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;normal-pcer
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/blogs/js/main.js"></script>
+    
+    
+
+
+
+
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

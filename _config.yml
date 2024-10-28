@@ -43,7 +43,7 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
-syntax_highlighter: highlight.js
+syntax_highlighter:
 highlight:
   enable: false
   line_number: true
@@ -97,7 +97,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: particleX
 plugins:
 
 # Deployment
@@ -106,3 +106,14 @@ deploy:
   type: git
   repo: git@github.com:Normal-pcer/blogs.git
 
+
+pandoc:
+  extra:
+    - no-highlight: 
+  
+archive_generator:
+    enabled: true
+    per_page: 0
+    yearly: false
+    monthly: false
+    daily: false

@@ -2,6 +2,7 @@
 title: P11206 「Cfz Round 9」Dove 题解
 date: 2024-10-21 18:41:50
 tags:
+categories: Solution
 mathjax: true
 ---
 ## 题意简述
